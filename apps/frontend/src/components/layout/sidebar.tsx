@@ -11,13 +11,23 @@ const links = [
 
 export function Sidebar() {
   return (
-    <aside style={{ background: "#202923", color: "#eef5ed", padding: 20, minHeight: "100vh" }}>
-      <strong>ATLAS Sentinel</strong>
-      <nav style={{ display: "grid", gap: 10, marginTop: 24 }}>
+    <aside className="sidebar">
+      <a className="brand-lockup" href="/">
+        <span className="brand-mark">AS</span>
+        <span>
+          <strong>ATLAS Sentinel</strong>
+          <small>Safety OS</small>
+        </span>
+      </a>
+      <nav className="sidebar-nav" aria-label="Primary navigation">
         {links.map(([label, href]) => (
           <a key={href} href={href}>{label}</a>
         ))}
       </nav>
+      <div className="sidebar-status">
+        <span className="status-dot" />
+        <span>Digital twin online</span>
+      </div>
     </aside>
   );
 }

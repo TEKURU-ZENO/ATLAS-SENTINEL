@@ -11,7 +11,7 @@ export function KpiStrip() {
       {kpis.map(([label, value]) => (
         <div className="panel" key={label}>
           <p className="eyebrow">{label}</p>
-          <strong style={{ fontSize: 34 }}>{value}</strong>
+          <strong className="metric-value">{value}</strong>
         </div>
       ))}
     </section>
