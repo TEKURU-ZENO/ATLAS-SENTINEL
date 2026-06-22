@@ -1,0 +1,15 @@
+{
+  "name": "atlas-sentinel",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Industrial Safety Intelligence Operating System monorepo.",
+  "workspaces": [
+    "apps/frontend",
+    "packages/shared-types",
+    "packages/ui-components"
+  ],
+  "scripts": {
+    "demo": "node --check app.js",
+    "frontend": "npm --workspace apps/frontend run dev"
+  }
+}

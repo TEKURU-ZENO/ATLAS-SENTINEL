@@ -1,0 +1,3 @@
+permit_id,type,zone,status,worker,equipment
+PTW-4421,hot_work,Zone C,active,Worker A,Boiler 7
+PTW-4419,confined_space,Zone B,closed,Worker D,Tank 3

@@ -1,0 +1,5 @@
+timestamp,zone,sensor,type,value,unit
+2026-06-22T09:00:00Z,Zone C,C-04,methane,0.8,percent_lel
+2026-06-22T09:02:00Z,Zone C,C-04,methane,2.9,percent_lel
+2026-06-22T09:04:00Z,Zone C,C-04,methane,4.6,percent_lel
+2026-06-22T09:06:00Z,Zone C,C-04,methane,6.2,percent_lel

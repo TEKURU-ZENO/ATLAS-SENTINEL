@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATLAS Sentinel</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="rail" aria-label="Primary">
+        <div class="brand">
+          <span class="brand-mark">AS</span>
+          <div>
+            <strong>ATLAS Sentinel</strong>
+            <span>Safety OS</span>
+          </div>
+        </div>
+        <nav class="persona-tabs" aria-label="Persona views">
+          <button class="tab active" data-view="operator" title="Control Room">
+            <span>Control Room</span>
+          </button>
+          <button class="tab" data-view="field" title="Field Safety">
+            <span>Field Safety</span>
+          </button>
+          <button class="tab" data-view="executive" title="Plant Head">
+            <span>Plant Head</span>
+          </button>
+          <button class="tab" data-view="audit" title="Audit Package">
+            <span>Audit</span>
+          </button>
+        </nav>
+        <div class="rail-status">
+          <span class="pulse"></span>
+          <span>Live twin synced</span>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Industrial Safety Intelligence Operating System</p>
+            <h1>Zero-harm command center</h1>
+          </div>
+          <div class="scenario-controls" aria-label="Scenario controls">
+            <button id="resetBtn" class="ghost">Reset</button>
+            <button id="stepBtn" class="primary">Inject Next Event</button>
+          </div>
+        </header>
+
+        <section class="view active" id="operator">
+          <section class="hero-grid">
+            <div class="twin-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Geospatial Digital Twin</p>
+                  <h2>Plant risk map</h2>
+                </div>
+                <span id="scenarioLabel" class="state-chip green">Healthy plant</span>
+              </div>
+              <div class="plant-wrap">
+                <canvas id="plantCanvas" width="1080" height="680" aria-label="Live plant map"></canvas>
+                <div id="mapCallout" class="map-callout">
+                  <strong>Zone C</strong>
+                  <span>Risk 18</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="risk-panel">
+              <div class="risk-meter">
+                <span>Current risk</span>
+                <strong id="riskNow">18</strong>
+                <small id="riskTrend">+0 in 30 min</small>
+              </div>
+              <div class="forecast">
+                <div>
+                  <span>30 min</span>
+                  <strong id="risk30">24</strong>
+                </div>
+                <div>
+                  <span>60 min</span>
+                  <strong id="risk60">31</strong>
+                </div>
+              </div>
+              <div class="action-box">
+                <p class="eyebrow">Recommended action</p>
+                <h3 id="recommendedAction">Continue monitoring normal operations.</h3>
+                <button id="workflowBtn" class="danger" disabled>Trigger emergency workflow</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="operator-grid">
+            <div class="compound-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Compound Risk Intelligence</p>
+                  <h2>Agent reasoning</h2>
+                </div>
+              </div>
+              <ol id="reasoningList" class="reasoning-list"></ol>
+            </div>
+            <div class="signals-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Live Data Fabric</p>
+                  <h2>Zone C signals</h2>
+                </div>
+              </div>
+              <div id="signalGrid" class="signal-grid"></div>
+            </div>
+            <div class="compliance-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Autonomous Compliance Monitoring</p>
+                  <h2>Violations</h2>
+                </div>
+              </div>
+              <div id="violationList" class="violation-list"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="field">
+          <div class="field-layout">
+            <div class="mobile-frame">
+              <div class="phone-top"></div>
+              <div class="scan-box">
+                <span class="scan-line"></span>
+                <strong>Boiler 7</strong>
+                <small>QR equipment scan</small>
+              </div>
+              <div class="voice-card">
+                <p>Can I start welding in Zone C?</p>
+                <strong id="copilotAnswer">Safe right now. Permit and gas state are within limits.</strong>
+              </div>
+            </div>
+            <div class="field-details">
+              <p class="eyebrow">Safety Copilot</p>
+              <h2>Field decision support</h2>
+              <div id="fieldChecks" class="check-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="executive">
+          <div class="exec-grid">
+            <div class="metric-tile">
+              <span>Today's Risk Index</span>
+              <strong id="execRisk">18</strong>
+            </div>
+            <div class="metric-tile">
+              <span>Compliance Score</span>
+              <strong id="execCompliance">98%</strong>
+            </div>
+            <div class="metric-tile">
+              <span>Near Miss Trend</span>
+              <strong id="execTrend">-12%</strong>
+            </div>
+            <div class="metric-tile">
+              <span>Open Violations</span>
+              <strong id="execViolations">0</strong>
+            </div>
+          </div>
+          <div class="trend-band">
+            <div>
+              <p class="eyebrow">Predictive Hazard Forecasting</p>
+              <h2>Risk movement</h2>
+            </div>
+            <div id="bars" class="bars" aria-label="Risk forecast chart"></div>
+          </div>
+        </section>
+
+        <section class="view" id="audit">
+          <div class="audit-layout">
+            <div>
+              <p class="eyebrow">One-click Audit Package</p>
+              <h2>Evidence bundle</h2>
+              <p class="audit-copy">The package updates as the twin changes, preserving sensor logs, agent reasoning, regulations, workflow actions, and visual evidence.</p>
+            </div>
+            <div id="auditItems" class="audit-items"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

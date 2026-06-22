@@ -1,0 +1,16 @@
+[
+  {
+    "id": "INC-2019-041",
+    "zone": "Zone C",
+    "signals": ["methane_rise", "hot_work", "shift_handover"],
+    "outcome": "near_miss",
+    "lesson": "Suspend hot work before combustible gas reaches critical threshold."
+  },
+  {
+    "id": "INC-2021-118",
+    "zone": "Zone B",
+    "signals": ["maintenance_active", "gas_alarm", "handover_delay"],
+    "outcome": "minor_injury",
+    "lesson": "Require one accountable commander during handover."
+  }
+]
