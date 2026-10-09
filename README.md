@@ -1,4 +1,4 @@
-# ATLAS Sentinel
+# ATLAS Sentinel (Under Revamp)
 
 Industrial Safety Intelligence Operating System for zero-harm operations.
 
