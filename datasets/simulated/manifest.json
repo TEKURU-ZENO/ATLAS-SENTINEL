@@ -1,0 +1,16 @@
+{
+  "kind": "synthetic_simulation",
+  "seed": 20261106,
+  "days": 21,
+  "zones": [
+    "Zone A",
+    "Zone B",
+    "Zone C"
+  ],
+  "sample_interval_minutes": 10,
+  "sensor_rows": 9072,
+  "incident_count": 21,
+  "positive_windows": 84,
+  "created_at": "2026-11-05T18:43:52.443353+00:00",
+  "limitations": "Synthetic process, schedules, and event injection; not field telemetry or a validated safety threshold model."
+}

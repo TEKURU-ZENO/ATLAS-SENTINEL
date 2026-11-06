@@ -1,8 +1,15 @@
 def evaluate_compliance(state: dict) -> dict:
-    violations = []
-    if state.get("permit_decision") == "suspend":
-        violations.append("OISD hot work control violation")
-    if state.get("workers", 0) > 0 and state.get("risk_score", 0) >= 80:
-        violations.append("Factory Act preventive exposure control required")
-    state["violations"] = violations
+    findings = []
+    permit = state.get("permit_evaluation", {})
+    if permit.get("decision") in {"hold", "suspend"}:
+        findings.extend(permit.get("findings", []))
+    if state.get("risk_score", 0) >= 60:
+        findings.append({
+            "rule_family": "operational_review",
+            "finding": "Compound-risk review threshold reached.",
+            "evidence": state.get("risk_interactions", []),
+            "legal_reference": "OSHWC Code 2020, sections 6 and 23 are indexed as general employer safety duties; site-specific applicability needs competent review.",
+        })
+    state["compliance_findings"] = findings
+    state["violations"] = findings
     return state

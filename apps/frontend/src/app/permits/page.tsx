@@ -1,5 +1,5 @@
-import { PermitAgentCard } from "../../components/agents/permit-agent-card";
+import { PermitWorkbench } from "../../components/permits/permit-workbench";
 
 export default function PermitsPage() {
-  return <PermitAgentCard />;
+  return <PermitWorkbench />;
 }

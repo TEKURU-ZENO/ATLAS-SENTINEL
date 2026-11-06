@@ -1,18 +1,14 @@
-from events.gas_leak import gas_leak_events
-from events.maintenance_event import maintenance_event
-from generators.permit_generator import generate_permit_stream
-from generators.worker_generator import generate_worker_stream
+import argparse
+import json
+from pathlib import Path
 
-
-def run_demo_scenario() -> list[dict]:
-    events = []
-    events.extend(gas_leak_events())
-    events.append(maintenance_event())
-    events.extend(generate_permit_stream())
-    events.extend(generate_worker_stream())
-    return sorted(events, key=lambda event: event["minute"])
+from generate_dataset import OUT, generate
 
 
 if __name__ == "__main__":
-    for event in run_demo_scenario():
-        print(event)
+    parser = argparse.ArgumentParser(description="Generate a multi-week synthetic plant operations dataset.")
+    parser.add_argument("--days", type=int, default=21)
+    parser.add_argument("--seed", type=int, default=20261106)
+    parser.add_argument("--output", type=Path, default=OUT)
+    args = parser.parse_args()
+    print(json.dumps(generate(args.days, args.seed, args.output), indent=2))

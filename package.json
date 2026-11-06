@@ -9,10 +9,13 @@
     "packages/ui-components"
   ],
   "scripts": {
-    "demo": "node --check app.js",
     "dev": "npm --workspace apps/frontend run dev",
     "build": "npm --workspace apps/frontend run build",
     "start": "npm --workspace apps/frontend run start",
-    "frontend": "npm --workspace apps/frontend run dev"
+    "frontend": "npm --workspace apps/frontend run dev",
+    "sim:generate": "python apps/simulator/generate_dataset.py",
+    "sim:evaluate": "python apps/simulator/evaluate_risk.py",
+    "test:backend": "python apps/backend/run_tests.py",
+    "rag:evaluate": "python apps/backend/run_rag_eval.py"
   }
 }

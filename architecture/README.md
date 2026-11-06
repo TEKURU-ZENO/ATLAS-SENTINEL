@@ -1,6 +1,6 @@
 # Architecture
 
-The MVP architecture is documented as Mermaid diagrams so it can be edited quickly during hackathon iteration.
+The Mermaid diagrams document the aspirational target architecture; they do not describe implemented production connectors. The runnable prototype scope and limits are in `docs/mvp-scope.md`.
 
 - `system-architecture.md`: data fabric, digital twin, knowledge graph, agents, command center, and emergency workflow.
 - `agent-flow.md`: multi-agent sequence from Sentinel orchestration to emergency action.

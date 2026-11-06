@@ -5,8 +5,7 @@ const links = [
   ["Permits", "/permits"],
   ["Compliance", "/compliance"],
   ["Analytics", "/analytics"],
-  ["Copilot", "/copilot"],
-  ["Settings", "/settings"]
+  ["Copilot", "/copilot"]
 ];
 
 export function Sidebar() {
@@ -26,7 +25,7 @@ export function Sidebar() {
       </nav>
       <div className="sidebar-status">
         <span className="status-dot" />
-        <span>Digital twin online</span>
+        <span>Historical sample data</span>
       </div>
     </aside>
   );

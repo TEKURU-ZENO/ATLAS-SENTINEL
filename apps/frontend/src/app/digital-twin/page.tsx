@@ -1,5 +1,5 @@
-import { DigitalTwin } from "../../components/twin/digital-twin";
+import { DigitalTwinView } from "../../components/twin/digital-twin-view";
 
 export default function DigitalTwinPage() {
-  return <DigitalTwin />;
+  return <DigitalTwinView />;
 }

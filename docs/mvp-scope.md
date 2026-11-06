@@ -1,12 +1,18 @@
-# MVP Scope
+# Current Prototype Scope
 
-Build the experience judges can understand in under seven minutes:
+## Implemented
 
-- A digital twin that starts green and turns red only when conditions combine.
-- A risk engine that explains gas rise, active hot work, maintenance, and shift handover as one compound hazard.
-- Agent reasoning visible enough to prove the system is more than a chart dashboard.
-- Compliance output with evidence, rule family, and action recommendation.
-- A field safety copilot that answers whether work can proceed.
-- An emergency response action that preserves the audit trail.
+- Reproducible, seeded multi-zone synthetic streams with permits, shifts, maintenance periods, occupancy, and 30-60-minute precursor labels.
+- Explainable compound-risk rules baseline and an offline gradient-boosting evaluation on a chronological holdout.
+- Permit checks for gas conflict, missing sensor state, confined-space gas-test evidence, and expiry. Local suspension writes an SQLite status transition and audit row behind an explicit environment gate.
+- TF-IDF/lexical regulation retrieval, PDF ingestion with section/page metadata, and a 50-question retrieval/citation benchmark.
+- API-backed Next.js screens for dashboard, twin, permits, compliance, incidents, analytics, and copilot.
 
-Skip production ML for the MVP. Simulated streams plus clear reasoning will feel more credible than a black-box forecast.
+## Deliberate Limits
+
+- Simulator labels and all reported model metrics are synthetic and cannot establish field precision or false-alarm performance.
+- Current operational API values come from repository snapshots, not live sensors or work systems. Unknown maintenance, worker, and shift state stays unknown.
+- The 2.5% LEL hot-work interlock is a demo assumption, not a quoted legal threshold.
+- No external permit action, PLC command, evacuation, or emergency response is executed.
+- Current-Code retrieval contains curated source summaries; the authorized OISD-STD-105 full text and jurisdiction-specific implementing rules are not ingested.
+- Copilot is deterministic intent routing plus cited retrieval, not a generative model.

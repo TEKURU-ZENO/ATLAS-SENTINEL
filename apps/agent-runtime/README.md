@@ -1,17 +1,11 @@
 # Agent Runtime
 
-LangGraph-ready safety brain for ATLAS Sentinel.
+The current synchronous graph shares the compound-risk and permit-rule packages with the FastAPI backend. It produces risk drivers, permit decisions, compliance review notes, a rule-based trend forecast, and response recommendations.
 
-The current scaffold runs the MVP reasoning path:
+The graph does not call external systems. A permit `suspend` result is an evaluation; persistence is available only through the backend's explicitly enabled local demo mirror. The learned classifier is evaluated offline by `apps/simulator/evaluate_risk.py` and is not treated as a live safety predictor.
 
-1. Hazard Correlation Agent scores compound risk.
-2. Permit Intelligence Agent suspends conflicting hot work.
-3. Compliance Agent maps violations.
-4. Forecasting Agent projects risk.
-5. Emergency Commander Agent recommends response actions.
+Smoke test from the repository root:
 
-Smoke test:
-
-```bash
-python -c "from agents.graph import run_agent_graph; print(run_agent_graph({'zone':'Zone C','methane_percent_lel':6.2,'active_hot_work':True,'maintenance_active':True,'shift_handover':True,'workers':14}))"
+```powershell
+python -c "import sys; sys.path.insert(0, 'apps/agent-runtime'); from agents.graph import run_agent_graph; print(run_agent_graph({'zone':'Zone C','permit_id':'PTW-4421','methane_percent_lel':6.2,'active_hot_work':True,'maintenance_active':True,'shift_handover':True}))"
 ```
