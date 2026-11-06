@@ -11,6 +11,8 @@ Official references:
 - OISD standards catalogue: https://oisd.gov.in/oisd-standards
 - Historical Factories Act text: https://www.indiacode.nic.in/bitstream/123456789/1530/1/A1948-63.pdf
 
+The retriever abstains below a minimum relevance score of 0.08. This is a guard against clearly unrelated queries, not a calibrated confidence threshold. The hand-written 50-question set measures retrieval/context behavior against the small seed corpus and is not an independent legal-answer evaluation.
+
 Place authorized PDFs or permitted text copies under `datasets/regulations/source/`, then run:
 
 ```powershell

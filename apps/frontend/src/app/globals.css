@@ -183,6 +183,12 @@ h1 {
   color: #991b1b;
 }
 
+.stale-notice {
+  color: #8a3b00;
+  background: #fff3dc;
+  border-color: #e6b65e;
+}
+
 .page,
 .dashboard {
   display: grid;
@@ -310,6 +316,10 @@ h1 {
   border-radius: 8px;
   background: conic-gradient(from 220deg, #15803d, #c78408, #d85f12, #c92323);
   text-align: center;
+}
+
+.risk-orbit.stale {
+  background: #66736a;
 }
 
 .risk-orbit span,
@@ -645,6 +655,50 @@ input[type="text"] {
   overflow-x: auto;
 }
 
+.alarm-chart {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  margin: 16px 0 24px;
+}
+
+.alarm-chart-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(100px, 1fr) 54px;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.alarm-track {
+  height: 14px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e8ede8;
+}
+
+.alarm-bar {
+  height: 100%;
+  min-width: 2px;
+  border-radius: 3px;
+}
+
+.alarm-bar.compound {
+  background: var(--cyan);
+}
+
+.alarm-bar.methane {
+  background: var(--orange);
+}
+
+.alarm-chart-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.alarm-chart > small {
+  color: var(--muted);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -674,6 +728,12 @@ th {
 }
 
 @media (max-width: 560px) {
+  .alarm-chart-row {
+    grid-template-columns: minmax(110px, 1fr) minmax(72px, 1.4fr) 42px;
+    gap: 8px;
+    font-size: 12px;
+  }
+
   .copilot-input-row {
     align-items: stretch;
     flex-direction: column;

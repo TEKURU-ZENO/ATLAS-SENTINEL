@@ -19,7 +19,8 @@ def evaluate_all_permits(execute_suspensions: bool = False) -> dict:
         if permit["status"] not in {"active", "open"}:
             evaluated.append({"permit_id": permit["permit_id"], "zone": permit["zone"], "decision": "no_change", "findings": [], "rules": []})
             continue
-        state = current if permit["zone"] == current["zone"] else {"methane_percent_lel": None}
+        has_fresh_sensor = permit["zone"] == current["zone"] and not current["sensor_stale"] and current["sensor_verified"]
+        state = current if has_fresh_sensor else {"methane_percent_lel": None}
         evaluated.append(evaluate_permit(permit, state))
 
     changed = []
@@ -32,7 +33,7 @@ def evaluate_all_permits(execute_suspensions: bool = False) -> dict:
         "suspended": changed,
         "executed": bool(execute_suspensions),
         "audit": audit_log(),
-        "notice": "Actions update the local audited demo permit mirror only; no external permit system or plant control is connected.",
+        "notice": "Actions update the local audited demo permit mirror only; no external permit system or plant control is connected. Sensor-dependent checks hold when matching data is missing, stale, or unverified.",
     }
 
 
@@ -46,6 +47,9 @@ def validate_permits() -> dict:
         "equipment": current["equipment"],
         "sensor_reading_percent_lel": current["methane_percent_lel"],
         "sensor_timestamp": current["sensor_timestamp"],
+        "sensor_stale": current["sensor_stale"],
+        "sensor_verified": current["sensor_verified"],
+        "sensor_age_minutes": current["sensor_age_minutes"],
         "valid": not active or active["decision"] == "continue",
         "decision": active["decision"] if active else "no_active_permit",
         "evidence": active["findings"] if active else [],

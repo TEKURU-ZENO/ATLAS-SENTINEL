@@ -25,5 +25,5 @@ def get_permits() -> list[dict]:
 
 
 def get_incidents() -> list[dict]:
-    path = DATASET_ROOT / "incidents" / "historical_incidents.json"
+    path = DATASET_ROOT / "incidents" / "public_case_studies.json"
     return json.loads(path.read_text(encoding="utf-8"))

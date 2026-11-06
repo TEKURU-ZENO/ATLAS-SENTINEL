@@ -19,11 +19,12 @@ def get_compliance_findings() -> dict:
     return {
         "findings": findings,
         "risk_review": {
-            "required": risk["current"] >= 60,
+            "required": risk["current"] is not None and risk["current"] >= 60,
             "score": risk["current"],
+            "status": risk["status"],
             "drivers": risk["drivers"],
             "interactions": risk["interactions"],
-            "legal_references": ["OSHWC Code 2020, sections 6 and 23"] if risk["current"] >= 60 else [],
+            "legal_references": ["OSHWC Code 2020, sections 6 and 23"] if risk["current"] is not None and risk["current"] >= 60 else [],
         },
         "notice": "These are configured operational checks, not a legal compliance determination.",
     }

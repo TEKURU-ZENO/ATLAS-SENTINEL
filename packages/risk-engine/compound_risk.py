@@ -1,7 +1,8 @@
 def compound_risk(state: dict) -> dict:
-    gas = float(state.get("methane_percent_lel", 0))
+    raw_gas = state.get("methane_percent_lel")
+    gas = float(raw_gas) if raw_gas is not None else None
     drivers = []
-    if gas >= 1:
+    if gas is not None and gas >= 1:
         drivers.append({"id": "methane", "label": "Combustible gas elevation", "points": min(30, round(gas * 4))})
     if state.get("active_hot_work"):
         drivers.append({"id": "hot_work", "label": "Active hot-work permit", "points": 15})

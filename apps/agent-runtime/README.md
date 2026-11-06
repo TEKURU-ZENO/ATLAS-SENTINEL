@@ -1,6 +1,6 @@
 # Agent Runtime
 
-The current synchronous graph shares the compound-risk and permit-rule packages with the FastAPI backend. It produces risk drivers, permit decisions, compliance review notes, a rule-based trend forecast, and response recommendations.
+The current synchronous graph shares the compound-risk and permit-rule packages with the FastAPI backend. It produces risk drivers, permit decisions, compliance review notes, and response recommendations. It does not emit a forecast; prediction is an offline research evaluation only.
 
 The graph does not call external systems. A permit `suspend` result is an evaluation; persistence is available only through the backend's explicitly enabled local demo mirror. The learned classifier is evaluated offline by `apps/simulator/evaluate_risk.py` and is not treated as a live safety predictor.
 

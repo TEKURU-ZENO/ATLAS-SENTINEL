@@ -10,9 +10,10 @@ export interface TwinState {
   workers: number;
 }
 
-export interface RiskForecast {
-  current: number;
-  forecast30: number;
-  forecast60: number;
+export interface RiskSnapshot {
+  current: number | null;
+  snapshotScore: number | null;
+  sensorTrend: "rising" | "falling" | "stable" | "unknown";
+  sensorDelta: number | null;
   tone: RiskTone;
 }

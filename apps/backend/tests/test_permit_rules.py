@@ -51,11 +51,24 @@ class PermitRuleTests(unittest.TestCase):
 
     def test_permit_agent_suspends_matching_active_permit_when_enabled(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
-            with patch.object(permit_store, "DB_PATH", Path(directory) / "operations.sqlite3"), patch.dict(os.environ, {"ATLAS_ENABLE_PERMIT_ACTIONS": "true"}):
+            fresh_snapshot = {"zone": "Zone C", "methane_percent_lel": 6.2, "sensor_stale": False, "sensor_verified": True}
+            with patch.object(permit_store, "DB_PATH", Path(directory) / "operations.sqlite3"), patch.dict(os.environ, {"ATLAS_ENABLE_PERMIT_ACTIONS": "true"}), patch("app.services.permit_service.get_twin_state", return_value=fresh_snapshot):
                 result = evaluate_all_permits(execute_suspensions=True)
                 self.assertEqual(result["suspended"], ["PTW-4421"])
                 status_by_id = {item["permit_id"]: item["status"] for item in permit_store.get_permits()}
                 self.assertEqual(status_by_id["PTW-4421"], "suspended")
+
+    def test_stale_sensor_holds_sensor_dependent_permit_check(self):
+        stale_snapshot = {"zone": "Zone C", "methane_percent_lel": 6.2, "sensor_stale": True}
+        with patch("app.services.permit_service.get_twin_state", return_value=stale_snapshot), patch("app.services.permit_service.get_permits", return_value=[ACTIVE]), patch("app.services.permit_service.audit_log", return_value=[]):
+            result = evaluate_all_permits()
+        self.assertEqual(result["evaluations"][0]["decision"], "hold")
+
+    def test_fresh_but_unverified_sensor_holds_sensor_dependent_permit_check(self):
+        unverified_snapshot = {"zone": "Zone C", "methane_percent_lel": 6.2, "sensor_stale": False, "sensor_verified": False}
+        with patch("app.services.permit_service.get_twin_state", return_value=unverified_snapshot), patch("app.services.permit_service.get_permits", return_value=[ACTIVE]), patch("app.services.permit_service.audit_log", return_value=[]):
+            result = evaluate_all_permits()
+        self.assertEqual(result["evaluations"][0]["decision"], "hold")
 
 
 if __name__ == "__main__":

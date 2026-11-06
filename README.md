@@ -7,9 +7,11 @@ ATLAS Sentinel is a research/demo prototype. The repository includes a reproduci
 ## What Is Built
 
 - Next.js frontend and FastAPI endpoints for risk, twin, permits, incidents, compliance, and copilot.
-- 21-day, three-zone simulator with deterministic sensor, permit, shift, maintenance, occupancy, and precursor streams.
-- Compound-risk rules baseline with explicit drivers/interactions; gradient-boosting holdout evaluation and false-alarm/lead-time metrics.
+- 21-day, three-zone synthetic simulator with deterministic sensor, permit, shift, maintenance, occupancy, and injected precursor streams.
+- Shared compound-risk rules evaluated against `incident_windows.csv` and a methane-only baseline, with window precision/false-alarm rate, alert-episode burden, and per-event lead times. A separate temporal ML experiment is explicitly synthetic-only.
+- Curated, cited CSB public investigation case studies for lessons and source-grounded responses. These cases are not treated as plant incidents or model labels.
 - Permit decisions with rule identifiers, a SQLite audit-backed local mirror, and an explicit environment gate for demo suspensions.
+- Sensor freshness gating: old or unverified samples do not produce a current risk score, and sensor-dependent permit checks hold by default after 15 minutes.
 - Local TF-IDF regulation retrieval with section/page citations, a 50-question retrieval/citation evaluation, and PDF ingestion tools.
 - Current-law seed context for India's OSH Code. OISD-STD-105 is indexed only as a catalogue record until its authorized full text is provided.
 
@@ -22,9 +24,10 @@ npm run test:backend
 npm run rag:evaluate
 ```
 
-The checked-in simulator output and evaluation are synthetic benchmarks, not observed incident data. To test local permit suspension, set `ATLAS_ENABLE_PERMIT_ACTIONS=true` and call `POST /permits/evaluate` with `{"execute_suspensions": true}`. This changes only the local audited demo mirror, never an external permit system.
+The checked-in simulator output and evaluation are synthetic benchmarks, not observed incident data. `datasets/sensors/sensor_history.csv` has unknown provenance and is illustrative only. The CSB case-study corpus is real public incident material but has no synchronized sensor precursors, so it is not used for prediction evaluation. To test local permit suspension, set `ATLAS_ENABLE_PERMIT_ACTIONS=true` and call `POST /permits/evaluate` with `{"execute_suspensions": true}`. This changes only the local audited demo mirror, never an external permit system.
 
 Regulatory document ingestion and source limits are documented in `datasets/regulations/README.md`.
+Public incident source scope and selection bias are documented in `datasets/incidents/README.md`; sample sensor provenance is documented in `datasets/sensors/README.md`.
 
 ## Run the App
 
@@ -53,7 +56,7 @@ apps/backend        FastAPI service boundary
 apps/agent-runtime  Synchronous rules-based agent graph
 apps/simulator      Digital twin event simulator
 packages/*          Shared compound risk and permit rules plus UI/types
-datasets            Historical snapshots, generated simulation, regulation sources
+datasets            Illustrative snapshots, synthetic simulation, public cases, regulation sources
 architecture        System diagrams and sequence flows
 deployment          Deployment notes and local compose plan
 ```

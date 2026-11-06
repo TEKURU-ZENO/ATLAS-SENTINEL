@@ -10,7 +10,12 @@ router = APIRouter()
 @router.get("")
 def list_incidents() -> dict:
     items = get_incidents()
-    return {"items": items, "count": len(items), "data_source": "repository_dataset_snapshot"}
+    return {
+        "items": items,
+        "count": len(items),
+        "data_source": "curated_public_csb_case_studies",
+        "notice": "Public investigation examples; not incidents from this site and not time-aligned prediction labels.",
+    }
 
 
 @router.post("/emergency-workflow")
@@ -19,7 +24,9 @@ def trigger_emergency_workflow() -> dict:
     risk = get_current_risk()
     permit_result = evaluate_all_permits()
     actions = []
-    if risk["current"] >= 60:
+    if risk["current"] is None:
+        actions.append(f"Current compound risk is unavailable because sensor data is {risk['status']}; obtain a fresh verified reading and reassess.")
+    elif risk["current"] >= 60:
         actions.append(f"escalate {twin['zone']} compound risk to the site control room")
     for evaluation in permit_result["evaluations"]:
         if evaluation["decision"] == "suspend":

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "CSB-2024-05-I-TX",
+    "title": "PEMEX Deer Park Chemical Release",
+    "event_date": "2024-10-10",
+    "location": "Deer Park, Texas, United States",
+    "event_type": "Hydrogen sulfide release during maintenance",
+    "signals": [
+      "planned maintenance",
+      "pipe opening",
+      "positive equipment identification failure",
+      "contractor hazard communication"
+    ],
+    "outcome": "Two fatalities; 13 others transported to medical facilities; more than 27,000 pounds of hydrogen sulfide released.",
+    "lesson": "Before pipe opening, positively identify the exact equipment and communicate unit hazards and safeguards to every contractor. Assess nearby personnel exposure and verify isolation rather than relying on similar-looking equipment or incomplete markings.",
+    "source": "U.S. Chemical Safety and Hazard Investigation Board final investigation report and release",
+    "source_url": "https://www.csb.gov/us-chemical-safety-board-releases-investigation-report-on-fatal-hydrogen-sulfide-release-at-the-pemex-deer-park-refinery-in-texas/",
+    "source_type": "official_investigation",
+    "not_training_label": true
+  },
+  {
+    "id": "CSB-2024-04-I-GA",
+    "title": "Bio-Lab Conyers Fire and Chemical Release",
+    "event_date": "2024-09-29",
+    "location": "Conyers, Georgia, United States",
+    "event_type": "Reactive chemical decomposition, fires, and toxic gas release",
+    "signals": [
+      "reactive chemical storage",
+      "sprinkler corrosion and water intrusion",
+      "inventory and hazard assessment",
+      "moisture and heat exposure"
+    ],
+    "outcome": "Warehouse destroyed; no injuries reported at the site; community evacuation and shelter-in-place actions followed.",
+    "lesson": "Treat storage compatibility, moisture exposure, corrosion, and fire-protection system condition as interacting hazards. Resolve recurring equipment degradation and reassess safeguards against actual inventory and process conditions.",
+    "source": "U.S. Chemical Safety and Hazard Investigation Board final investigation report and release",
+    "source_url": "https://www.csb.gov/bio-lab-inc-conyers-fire-and-chemical-release-/",
+    "source_type": "official_investigation",
+    "not_training_label": true
+  }
+]

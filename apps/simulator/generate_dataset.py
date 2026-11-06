@@ -29,17 +29,37 @@ def generate(days: int = 21, seed: int = 20261106, output: Path = OUT) -> dict:
     start = datetime(2025, 1, 6, tzinfo=timezone.utc)
     steps = days * 24 * 60 // STEP_MINUTES
     incident_marks = []
-    # Six incidents per zone across three weeks, intentionally concentrated in
-    # uncommon combinations so the holdout contains both positives and negatives.
+    mechanisms = ("combustible_gas_ramp", "work_control_conflict", "unobserved_precursor")
     for zone in ZONES:
         for day in range(1, days, max(1, days // 6)):
-            hour = rng.randint(7, 20)
-            minute = rng.choice([0, 10, 20, 30, 40, 50])
-            incident_marks.append((zone, start + timedelta(days=day, hours=hour, minutes=minute)))
+            mechanism = rng.choices(mechanisms, weights=(0.45, 0.3, 0.25), k=1)[0]
+            if mechanism == "work_control_conflict":
+                event_time = start + timedelta(days=day, hours=rng.choice([8, 16]), minutes=40)
+            else:
+                hour = rng.randint(7, 20)
+                minute = rng.choice([0, 10, 20, 30, 40, 50])
+                event_time = start + timedelta(days=day, hours=hour, minutes=minute)
+            incident_marks.append((zone, event_time, mechanism))
+
+    nuisance_gas = {zone: [] for zone in ZONES}
+    for zone in ZONES:
+        for day in range(days):
+            if rng.random() >= 0.4:
+                continue
+            timestamp = start + timedelta(days=day, hours=rng.randint(6, 21), minutes=rng.choice([0, 10, 20, 30, 40, 50]))
+            if any(event_zone == zone and abs((event_time - timestamp).total_seconds()) <= 90 * 60 for event_zone, event_time, _ in incident_marks):
+                continue
+            nuisance_gas[zone].append((timestamp, rng.uniform(0.8, 1.2)))
 
     permits = []
     maintenance = []
     shifts = []
+    for zone, event_time, mechanism in incident_marks:
+        if mechanism == "work_control_conflict":
+            permit_start = event_time - timedelta(hours=1)
+            permit_end = event_time + timedelta(minutes=10)
+            permits.append({"permit_id": f"SIM-PTW-{zone[-1]}-{event_time:%j%H%M}", "zone": zone, "type": "hot_work", "start": permit_start, "end": permit_end, "status": "scheduled"})
+            maintenance.append({"work_order": f"SIM-WO-{zone[-1]}-{event_time:%j%H%M}", "zone": zone, "equipment": f"{zone[-1]}-PUMP-SIM", "start": permit_start, "end": permit_end})
     for zone in ZONES:
         for day in range(days):
             midnight = start + timedelta(days=day)
@@ -54,28 +74,32 @@ def generate(days: int = 21, seed: int = 20261106, output: Path = OUT) -> dict:
 
     sensor_rows, outcome_rows = [], []
     incidents = []
-    for zone, event_time in incident_marks:
-        incidents.append({"incident_id": f"SIM-{len(incidents) + 1:04d}", "zone": zone, "timestamp": event_time.isoformat(), "outcome": "precursor_event", "injected": True})
+    for zone, event_time, mechanism in incident_marks:
+        incidents.append({"incident_id": f"SIM-{len(incidents) + 1:04d}", "zone": zone, "timestamp": event_time.isoformat(), "outcome": "precursor_event", "mechanism": mechanism, "injected": True})
 
     for zone, baseline in ZONES.items():
-        zone_events = [at for event_zone, at in incident_marks if event_zone == zone]
+        zone_events = [(at, mechanism) for event_zone, at, mechanism in incident_marks if event_zone == zone]
         for index in range(steps):
             timestamp = start + timedelta(minutes=index * STEP_MINUTES)
-            active_event = next((at for at in zone_events if timedelta(minutes=-10) <= at - timestamp <= timedelta(minutes=70)), None)
+            active_event = next(((at, mechanism) for at, mechanism in zone_events if timedelta(minutes=-10) <= at - timestamp <= timedelta(minutes=70)), None)
             noise = rng.uniform(-0.08, 0.08)
             gas = max(0.02, baseline + noise + rng.uniform(0, 0.12))
             if active_event:
-                minutes_to_event = (active_event - timestamp).total_seconds() / 60
-                if 0 <= minutes_to_event <= 60:
+                event_time, mechanism = active_event
+                minutes_to_event = (event_time - timestamp).total_seconds() / 60
+                if mechanism == "combustible_gas_ramp" and 0 <= minutes_to_event <= 60:
                     gas += (60 - minutes_to_event) / 60 * rng.uniform(1.8, 3.4)
-                elif -10 <= minutes_to_event < 0:
+                elif mechanism == "combustible_gas_ramp" and -10 <= minutes_to_event < 0:
                     gas += rng.uniform(3.5, 6.0)
+            nuisance = [value for nuisance_at, value in nuisance_gas[zone] if nuisance_at <= timestamp < nuisance_at + timedelta(minutes=20)]
+            if nuisance:
+                gas += max(nuisance)
             hot_work = any(p["zone"] == zone and p["start"] <= timestamp < p["end"] for p in permits)
             maint = any(m["zone"] == zone and m["start"] <= timestamp < m["end"] for m in maintenance)
             handover = timestamp.minute < 20 and timestamp.hour in (0, 8, 16)
             crew = next((s["crew"] for s in shifts if s["zone"] == zone and s["start"] <= timestamp < s["end"]), "unknown")
             occupancy = max(0, int(rng.gauss(5 if hot_work else 3, 2)))
-            future_minutes = min(((at - timestamp).total_seconds() / 60 for at in zone_events if at > timestamp), default=None)
+            future_minutes = min(((at - timestamp).total_seconds() / 60 for at, _ in zone_events if at > timestamp), default=None)
             target = int(future_minutes is not None and 30 <= future_minutes <= 60)
             row = {
                 "timestamp": timestamp.isoformat(), "zone": zone, "sensor_id": f"{zone[-1]}-GAS-01",
@@ -105,6 +129,8 @@ def generate(days: int = 21, seed: int = 20261106, output: Path = OUT) -> dict:
         "sample_interval_minutes": STEP_MINUTES,
         "sensor_rows": len(sensor_rows),
         "incident_count": len(incidents),
+        "incident_mechanisms": {mechanism: sum(item["mechanism"] == mechanism for item in incidents) for mechanism in mechanisms},
+        "nuisance_gas_excursions": sum(len(items) for items in nuisance_gas.values()),
         "positive_windows": sum(row["incident_30_60m"] for row in sensor_rows),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "limitations": "Synthetic process, schedules, and event injection; not field telemetry or a validated safety threshold model.",

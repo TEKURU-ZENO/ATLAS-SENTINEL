@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../../services/api";
 
-type Incident = { id: string; zone: string; signals: string[]; outcome: string; lesson: string };
+type Incident = { id: string; title: string; event_date: string; location: string; signals: string[]; outcome: string; lesson: string; source: string; source_url: string };
 type Recommendation = { workflow: string; executed: boolean; actions: string[]; data_notice: string };
 
 export function IncidentTimeline() {
@@ -18,12 +18,15 @@ export function IncidentTimeline() {
 
   return (
     <main className="page">
-      <p className="eyebrow">Incident learning</p>
-      <h1>Recorded near misses and lessons</h1>
+      <p className="eyebrow">Public case studies</p>
+      <h1>Industrial incident learning</h1>
+      <p className="panel">Official investigation summaries are external learning references, not incident records from this plant or predictive training labels.</p>
       {error && <p className="panel" role="alert">{error}</p>}
       {items.map((item) => <article className="panel" key={item.id}>
-        <div className="panel-title"><h2>{item.id}</h2><strong>{item.outcome.replaceAll("_", " ")}</strong></div>
-        <p>{item.zone} · {item.signals.join(" / ")}</p><p>{item.lesson}</p>
+        <div className="panel-title"><h2>{item.title}</h2><strong>{item.event_date}</strong></div>
+        <p>{item.location} · {item.event_date} · {item.signals.join(" / ")}</p>
+        <p><strong>Outcome:</strong> {item.outcome}</p><p><strong>Learning:</strong> {item.lesson}</p>
+        <a href={item.source_url} target="_blank" rel="noreferrer">{item.source} ({item.id})</a>
       </article>)}
       <section className="panel">
         <h2>Response recommendation</h2>

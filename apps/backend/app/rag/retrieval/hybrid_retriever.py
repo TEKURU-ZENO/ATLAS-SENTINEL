@@ -40,7 +40,7 @@ def load_corpus(store: SQLiteDocumentStore | None = None) -> list[dict]:
     return documents
 
 
-def retrieve(query: str, limit: int = 5, store: SQLiteDocumentStore | None = None) -> list[dict]:
+def retrieve(query: str, limit: int = 5, store: SQLiteDocumentStore | None = None, min_score: float = 0.08) -> list[dict]:
     query = query.strip()
     if not query:
         return []
@@ -59,4 +59,5 @@ def retrieve(query: str, limit: int = 5, store: SQLiteDocumentStore | None = Non
         overlap = len(terms & content_terms) / max(1, len(terms))
         score = 0.82 * float(semantic_scores[index]) + 0.18 * overlap
         ranked.append({**document, "score": round(score, 4)})
-    return sorted(ranked, key=lambda item: item["score"], reverse=True)[:limit]
+    ranked.sort(key=lambda item: item["score"], reverse=True)
+    return [item for item in ranked if item["score"] >= min_score][:limit]

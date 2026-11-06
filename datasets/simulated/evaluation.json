@@ -17,18 +17,75 @@
       "occupancy"
     ],
     "metrics": {
-      "precision": 0.9375,
-      "recall": 0.625,
-      "false_alarm_rate_per_negative_window": 0.0004,
-      "false_alarms_per_1000_windows": 0.44,
-      "false_alarms_per_zone_day": 0.06,
-      "incident_lead_coverage": "6/6",
-      "median_lead_minutes": 50.0,
+      "precision": 1.0,
+      "recall": 0.1667,
+      "false_alarm_rate": 0.0,
+      "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+      "false_alarm_rate_per_negative_window": 0.0,
+      "false_alarms_per_1000_windows": 0.0,
+      "false_alarms_per_zone_day": 0.0,
+      "false_alarm_windows_per_zone_day": 0.0,
+      "alert_episodes": 3,
+      "false_alarm_episodes": 0,
+      "episode_precision": 1.0,
+      "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
+      "incident_lead_coverage": "3/6",
+      "median_lead_minutes": 40.0,
+      "incident_lead_times": [
+        {
+          "incident_id": "SIM-0006",
+          "mechanism": "combustible_gas_ramp",
+          "zone": "Zone A",
+          "timestamp": "2025-01-22T09:10:00+00:00",
+          "detected": true,
+          "lead_minutes": 50.0
+        },
+        {
+          "incident_id": "SIM-0007",
+          "mechanism": "combustible_gas_ramp",
+          "zone": "Zone A",
+          "timestamp": "2025-01-25T09:20:00+00:00",
+          "detected": true,
+          "lead_minutes": 40.0
+        },
+        {
+          "incident_id": "SIM-0013",
+          "mechanism": "unobserved_precursor",
+          "zone": "Zone B",
+          "timestamp": "2025-01-22T18:30:00+00:00",
+          "detected": false,
+          "lead_minutes": null
+        },
+        {
+          "incident_id": "SIM-0014",
+          "mechanism": "work_control_conflict",
+          "zone": "Zone B",
+          "timestamp": "2025-01-25T08:40:00+00:00",
+          "detected": true,
+          "lead_minutes": 40.0
+        },
+        {
+          "incident_id": "SIM-0020",
+          "mechanism": "work_control_conflict",
+          "zone": "Zone C",
+          "timestamp": "2025-01-22T08:40:00+00:00",
+          "detected": false,
+          "lead_minutes": null
+        },
+        {
+          "incident_id": "SIM-0021",
+          "mechanism": "work_control_conflict",
+          "zone": "Zone C",
+          "timestamp": "2025-01-25T08:40:00+00:00",
+          "detected": false,
+          "lead_minutes": null
+        }
+      ],
       "confusion": {
-        "true_positive": 15,
-        "false_positive": 1,
-        "false_negative": 9,
-        "true_negative": 2225
+        "true_positive": 4,
+        "false_positive": 0,
+        "false_negative": 20,
+        "true_negative": 2226
       }
     }
   },
@@ -36,51 +93,643 @@
     "name": "ATLAS compound rule v1",
     "threshold_sweep": {
       "35": {
-        "precision": 0.125,
-        "recall": 0.0833,
-        "false_alarm_rate_per_negative_window": 0.0063,
-        "false_alarms_per_1000_windows": 6.22,
-        "false_alarms_per_zone_day": 0.9,
-        "incident_lead_coverage": "1/6",
+        "precision": 0.7,
+        "recall": 0.2917,
+        "false_alarm_rate": 0.0013,
+        "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+        "false_alarm_rate_per_negative_window": 0.0013,
+        "false_alarms_per_1000_windows": 1.33,
+        "false_alarms_per_zone_day": 0.06,
+        "false_alarm_windows_per_zone_day": 0.19,
+        "alert_episodes": 5,
+        "false_alarm_episodes": 1,
+        "episode_precision": 0.8,
+        "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
+        "incident_lead_coverage": "4/6",
         "median_lead_minutes": 40.0,
+        "incident_lead_times": [
+          {
+            "incident_id": "SIM-0006",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-22T09:10:00+00:00",
+            "detected": true,
+            "lead_minutes": 60.0
+          },
+          {
+            "incident_id": "SIM-0007",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-25T09:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0013",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-22T18:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0014",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0020",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-22T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0021",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          }
+        ],
         "confusion": {
-          "true_positive": 2,
-          "false_positive": 14,
-          "false_negative": 22,
-          "true_negative": 2212
+          "true_positive": 7,
+          "false_positive": 3,
+          "false_negative": 17,
+          "true_negative": 2223
         }
       },
       "45": {
-        "precision": 0.3333,
-        "recall": 0.0833,
-        "false_alarm_rate_per_negative_window": 0.0018,
-        "false_alarms_per_1000_windows": 1.78,
-        "false_alarms_per_zone_day": 0.26,
-        "incident_lead_coverage": "1/6",
+        "precision": 1.0,
+        "recall": 0.25,
+        "false_alarm_rate": 0.0,
+        "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+        "false_alarm_rate_per_negative_window": 0.0,
+        "false_alarms_per_1000_windows": 0.0,
+        "false_alarms_per_zone_day": 0.0,
+        "false_alarm_windows_per_zone_day": 0.0,
+        "alert_episodes": 3,
+        "false_alarm_episodes": 0,
+        "episode_precision": 1.0,
+        "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
+        "incident_lead_coverage": "3/6",
         "median_lead_minutes": 40.0,
+        "incident_lead_times": [
+          {
+            "incident_id": "SIM-0006",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-22T09:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0007",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-25T09:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0013",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-22T18:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0014",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0020",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-22T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0021",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          }
+        ],
         "confusion": {
-          "true_positive": 2,
-          "false_positive": 4,
-          "false_negative": 22,
-          "true_negative": 2222
+          "true_positive": 6,
+          "false_positive": 0,
+          "false_negative": 18,
+          "true_negative": 2226
         }
       },
       "60": {
         "precision": 0.0,
         "recall": 0.0,
-        "false_alarm_rate_per_negative_window": 0.0004,
-        "false_alarms_per_1000_windows": 0.44,
-        "false_alarms_per_zone_day": 0.06,
+        "false_alarm_rate": 0.0,
+        "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+        "false_alarm_rate_per_negative_window": 0.0,
+        "false_alarms_per_1000_windows": 0.0,
+        "false_alarms_per_zone_day": 0.0,
+        "false_alarm_windows_per_zone_day": 0.0,
+        "alert_episodes": 0,
+        "false_alarm_episodes": 0,
+        "episode_precision": 0.0,
+        "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
         "incident_lead_coverage": "0/6",
         "median_lead_minutes": null,
+        "incident_lead_times": [
+          {
+            "incident_id": "SIM-0006",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-22T09:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0007",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-25T09:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0013",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-22T18:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0014",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0020",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-22T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0021",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          }
+        ],
         "confusion": {
           "true_positive": 0,
-          "false_positive": 1,
+          "false_positive": 0,
           "false_negative": 24,
-          "true_negative": 2225
+          "true_negative": 2226
         }
       }
     }
+  },
+  "ground_truth_compound_risk": {
+    "evaluation_scope": "all sensor rows joined to incident_windows.csv by timestamp and zone",
+    "labeled_windows": 9072,
+    "positive_windows": 84,
+    "compound_risk": {
+      "source": "packages/risk-engine/compound_risk.py",
+      "alarm_threshold": 45,
+      "metrics": {
+        "precision": 0.7241,
+        "recall": 0.25,
+        "false_alarm_rate": 0.0009,
+        "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+        "false_alarm_rate_per_negative_window": 0.0009,
+        "false_alarms_per_1000_windows": 0.88,
+        "false_alarms_per_zone_day": 0.0,
+        "false_alarm_windows_per_zone_day": 0.13,
+        "alert_episodes": 10,
+        "false_alarm_episodes": 0,
+        "episode_precision": 1.0,
+        "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
+        "incident_lead_coverage": "10/21",
+        "median_lead_minutes": 40.0,
+        "incident_lead_times": [
+          {
+            "incident_id": "SIM-0001",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone A",
+            "timestamp": "2025-01-07T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0002",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-10T07:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0003",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone A",
+            "timestamp": "2025-01-13T13:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0004",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone A",
+            "timestamp": "2025-01-16T07:50:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0005",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-19T08:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0006",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-22T09:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0007",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-25T09:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0008",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-07T07:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0009",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-10T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0010",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone B",
+            "timestamp": "2025-01-13T15:50:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0011",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-16T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0012",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-19T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0013",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-22T18:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0014",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0015",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-07T19:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0016",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-10T11:10:00+00:00",
+            "detected": true,
+            "lead_minutes": 50.0
+          },
+          {
+            "incident_id": "SIM-0017",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-13T16:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0018",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-16T10:20:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0019",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone C",
+            "timestamp": "2025-01-19T10:00:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0020",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-22T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0021",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          }
+        ],
+        "confusion": {
+          "true_positive": 21,
+          "false_positive": 8,
+          "false_negative": 63,
+          "true_negative": 8980
+        }
+      }
+    },
+    "methane_only_baseline": {
+      "alarm_rule": "methane_percent_lel >= 1.0% LEL",
+      "metrics": {
+        "precision": 0.1667,
+        "recall": 0.1905,
+        "false_alarm_rate": 0.0089,
+        "false_alarm_rate_definition": "false-positive labeled windows / all negative labeled windows",
+        "false_alarm_rate_per_negative_window": 0.0089,
+        "false_alarms_per_1000_windows": 8.82,
+        "false_alarms_per_zone_day": 0.38,
+        "false_alarm_windows_per_zone_day": 1.27,
+        "alert_episodes": 32,
+        "false_alarm_episodes": 24,
+        "episode_precision": 0.25,
+        "episode_definition": "Consecutive predicted windows in a zone are one alert episode; an episode is true when any window overlaps a labeled 30-60 minute precursor window (sample interval 10 minutes).",
+        "incident_lead_coverage": "8/21",
+        "median_lead_minutes": 40.0,
+        "incident_lead_times": [
+          {
+            "incident_id": "SIM-0001",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone A",
+            "timestamp": "2025-01-07T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0002",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-10T07:40:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0003",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone A",
+            "timestamp": "2025-01-13T13:20:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0004",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone A",
+            "timestamp": "2025-01-16T07:50:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0005",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-19T08:10:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0006",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-22T09:10:00+00:00",
+            "detected": true,
+            "lead_minutes": 30.0
+          },
+          {
+            "incident_id": "SIM-0007",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone A",
+            "timestamp": "2025-01-25T09:20:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0008",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-07T07:10:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0009",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-10T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0010",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone B",
+            "timestamp": "2025-01-13T15:50:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0011",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-16T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0012",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-19T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0013",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone B",
+            "timestamp": "2025-01-22T18:30:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0014",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone B",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0015",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-07T19:30:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0016",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-10T11:10:00+00:00",
+            "detected": true,
+            "lead_minutes": 50.0
+          },
+          {
+            "incident_id": "SIM-0017",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-13T16:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0018",
+            "mechanism": "combustible_gas_ramp",
+            "zone": "Zone C",
+            "timestamp": "2025-01-16T10:20:00+00:00",
+            "detected": true,
+            "lead_minutes": 40.0
+          },
+          {
+            "incident_id": "SIM-0019",
+            "mechanism": "unobserved_precursor",
+            "zone": "Zone C",
+            "timestamp": "2025-01-19T10:00:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0020",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-22T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          },
+          {
+            "incident_id": "SIM-0021",
+            "mechanism": "work_control_conflict",
+            "zone": "Zone C",
+            "timestamp": "2025-01-25T08:40:00+00:00",
+            "detected": false,
+            "lead_minutes": null
+          }
+        ],
+        "confusion": {
+          "true_positive": 16,
+          "false_positive": 80,
+          "false_negative": 68,
+          "true_negative": 8908
+        }
+      }
+    },
+    "compound_incident_coverage_by_mechanism": {
+      "combustible_gas_ramp": {
+        "detected": 2,
+        "total": 8,
+        "coverage": "2/8"
+      },
+      "unobserved_precursor": {
+        "detected": 0,
+        "total": 5,
+        "coverage": "0/5"
+      },
+      "work_control_conflict": {
+        "detected": 8,
+        "total": 8,
+        "coverage": "8/8"
+      }
+    },
+    "interpretation": "Window-level classification metrics; incident lead time is the earliest qualifying alert window 30-60 minutes before each injected event. Repeated adjacent alert windows count separately in precision and false-alarm rate."
+  },
+  "experiment_design": {
+    "data_kind": "synthetic only",
+    "label_source": "incident_windows.csv joined by timestamp and zone",
+    "direct_rule_scope": "Full-stream descriptive scoring of a fixed, untrained rule; not an independent holdout.",
+    "learned_model_scope": "Chronological holdout within one simulator configuration and seed; not external validation.",
+    "public_case_data": "CSB public cases are used for learning context only and are not joined to sensor labels."
   },
   "caveat": "Synthetic-data benchmark only. Event injection patterns and labels are simulator assumptions; no operational validity is implied."
 }

@@ -6,9 +6,12 @@ import { apiFetch } from "../../services/api";
 type TwinState = {
   zone: string;
   equipment: string;
-  methane_percent_lel: number;
-  sensor_id: string;
-  sensor_timestamp: string;
+  methane_percent_lel: number | null;
+  sensor_id: string | null;
+  sensor_timestamp: string | null;
+  sensor_age_minutes: number | null;
+  sensor_stale: boolean;
+  sensor_verified: boolean;
   sensor_history: { timestamp: string; value: number; unit: string }[];
   active_hot_work: boolean;
   maintenance_active: boolean | null;
@@ -17,6 +20,11 @@ type TwinState = {
   permit_id: string | null;
   data_notice: string;
 };
+
+function formatSampleAge(minutes: number | null): string {
+  if (minutes == null) return "age unknown";
+  return minutes >= 1440 ? `${Math.floor(minutes / 1440)} days old` : `${Math.round(minutes)} minutes old`;
+}
 
 export function DigitalTwinView() {
   const [state, setState] = useState<TwinState | null>(null);
@@ -28,8 +36,9 @@ export function DigitalTwinView() {
       <p className="eyebrow">Digital twin snapshot</p>
       <h1>{state?.zone ?? "Plant state"}</h1>
       {error && <p className="panel" role="alert">{error}</p>}
+      {state && (state.sensor_stale || !state.sensor_verified) && <p className="panel stale-notice" role="status">Sensor sample is {state.sensor_stale ? `stale (${formatSampleAge(state.sensor_age_minutes)})` : "unverified"}. Sensor-dependent permit checks are held pending fresh, verified data.</p>}
       <section className="grid">
-        <article className="panel"><p className="eyebrow">Equipment</p><h2>{state?.equipment ?? "--"}</h2><p>Sensor {state?.sensor_id ?? "--"}</p><strong>{state ? `${state.methane_percent_lel.toFixed(1)}% LEL` : "--"}</strong></article>
+        <article className="panel"><p className="eyebrow">Equipment</p><h2>{state?.equipment ?? "--"}</h2><p>Sensor {state?.sensor_id ?? "--"}</p><strong>{state?.methane_percent_lel == null ? "--" : `${state.methane_percent_lel.toFixed(1)}% LEL`}</strong></article>
         <article className="panel"><p className="eyebrow">Work authorization</p><h2>{state?.permit_id ?? "No active permit"}</h2><p>Hot work: {state ? state.active_hot_work ? "active" : "not recorded" : "--"}</p></article>
         <article className="panel"><p className="eyebrow">Unobserved state</p><h2>Not provided</h2><p>Workers: {state?.workers ?? "unknown"} · Maintenance: {state?.maintenance_active ?? "unknown"} · Handover: {state?.shift_handover ?? "unknown"}</p></article>
       </section>
